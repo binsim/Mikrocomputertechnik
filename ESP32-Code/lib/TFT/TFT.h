@@ -18,8 +18,7 @@ private:
     uint16_t osx = 120, osy = 120; // Saved x & y coords
     uint32_t updateTime = 0;       // time for next update
 
-    int old_analog = -999;  // Value last displayed
-    int old_digital = -999; // Value last displayed
+    int old_analog = -999; // Value last displayed
 
     int value = 0;
     int old_value = -1;

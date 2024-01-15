@@ -3,7 +3,7 @@
 void TFT::TFT_Init()
 {
     tft.init();
-    tft.setRotation(1); // Rotates the Display by 90 degrees
+    tft.setRotation(1);
     tft.fillScreen(TFT_BLACK);
     this->analogMeter();
 
@@ -93,19 +93,19 @@ void TFT::analogMeter()
             switch (i / 25)
             {
             case -2:
-                tft.drawCentreString("0", x0, y0 - 12, 2);
+                tft.drawCentreString("0%", x0, y0 - 12, 2);
                 break;
             case -1:
-                tft.drawCentreString("25", x0, y0 - 9, 2);
+                tft.drawCentreString("25%", x0, y0 - 9, 2);
                 break;
             case 0:
-                tft.drawCentreString("50", x0, y0 - 6, 2);
+                tft.drawCentreString("50%", x0, y0 - 6, 2);
                 break;
             case 1:
-                tft.drawCentreString("75", x0, y0 - 9, 2);
+                tft.drawCentreString("75%", x0, y0 - 9, 2);
                 break;
             case 2:
-                tft.drawCentreString("100", x0, y0 - 12, 2);
+                tft.drawCentreString("100%", x0, y0 - 12, 2);
                 break;
             }
         }
@@ -131,7 +131,8 @@ void TFT::plotNeedle(int value, byte ms_delay)
     tft.setTextColor(TFT_BLACK, TFT_WHITE);
     // char buf[8];
     // dtostrf(value, 4, 0, buf);
-    tft.drawRightString(String(this->mapFloat(value, 0, 100, 0, 3.3)), 40, 119 - 20, 2);
+    String RightString = String(this->mapFloat(value, 0, 100, 0, 3.3)) + "V";
+    tft.drawRightString(RightString, 50, 119 - 20, 2);
 
     if (value < -10)
         value = -10; // Limit value to emulate needle end stops

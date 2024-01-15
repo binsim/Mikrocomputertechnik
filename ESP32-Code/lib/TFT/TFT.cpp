@@ -10,9 +10,9 @@ void TFT::TFT_Init()
     updateTime = millis();
 }
 
-void TFT::DisplayValue(int value)
+void TFT::DisplayValue(int PotiValue)
 {
-    value = map(value, 0, MAX_ANALOG_INPUT, 0, 100);
+    value = map(PotiValue, 0, MAX_ANALOG_INPUT, 0, 100);
 
     if (updateTime <= millis())
     {

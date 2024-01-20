@@ -3,14 +3,16 @@
 
 #define TFT_GREY 0x5AEB
 
-#define LOOP_PERIOD 35        // Display updates every 35 ms
-#define MAX_ANALOG_INPUT 4095 // Max value of the analog Input of the Poti
+#define LOOP_PERIOD 35 // Display updates every 35 ms
+#define MAX_ANALOG_INPUT 4095
+#define M_SIZE 1.3333
+// Max value of the analog Input of the Poti
 
 class TFT
 {
 public:
     void TFT_Init();
-    void DisplayValue(int value);
+    void DisplayValue(u_int16_t value);
 
 private:
     TFT_eSPI tft = TFT_eSPI();

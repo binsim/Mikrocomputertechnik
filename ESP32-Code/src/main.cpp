@@ -2,14 +2,17 @@
 #include <WiFi.h>
 #include <esp_wifi.h>
 #include <esp_now.h>
+#include "TFT.h"
 
 const uint8_t macAddress[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x01};
 const uint8_t receiverAddress[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x02};
 
+#define Poti 34 // Poti auf den ESP32 Board
 #define LED_GREEN 2
 
 void onEspNowCallback(const uint8_t *mac_addr, const uint8_t *incomingData, int len);
 
+TFT tft; // Create an Instance of the class "TFT"
 esp_now_peer_info_t receiverPeerInfo;
 void setup()
 {
@@ -40,17 +43,24 @@ void setup()
 
 	// Set callback method for esp now
 	esp_now_register_recv_cb(onEspNowCallback);
+
+	// Initialize TFT Display
+	tft.TFT_Init();
 }
 
 void loop()
 {
+	// tft.DisplayValue(analogRead(Poti)); // TODO: Ändern auf den gesendeten Wert
 }
 
 void onEspNowCallback(const uint8_t *macAddr, const uint8_t *incomingData, int len)
 {
 	if (len == 2)
 	{
-		int data = (incomingData[0] << 8) + incomingData[1];
+		uint16_t data = (incomingData[0] << 8) + incomingData[1];
 		Serial.println(data, HEX);
+
+		// set display value to received poti value
+		tft.DisplayValue(data);
 	}
 }

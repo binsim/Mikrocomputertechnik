@@ -4,7 +4,7 @@
 
 #define Poti 34 // Poti auf den ESP32 Board
 
-TFT tft; // Erstellen eines Objektes der Klasse TFT
+TFT tft; // Create an Instance of the class "TFT"
 
 void setup()
 {

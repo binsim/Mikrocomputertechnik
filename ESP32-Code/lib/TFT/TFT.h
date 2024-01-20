@@ -4,7 +4,7 @@
 #define TFT_GREY 0x5AEB
 
 #define LOOP_PERIOD 35              // Display updates every 35 ms
-#define MAX_ANALOG_INPUT_VALUE 4095 // Max Input Value of the Potentiometer
+#define MAX_ANALOG_INPUT_VALUE 1024 // Max Input Value of the Potentiometer
 #define M_SIZE 1.3333               // Factor to scale the Analog Meter over the whole TFT
 
 class TFT

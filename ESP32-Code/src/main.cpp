@@ -7,7 +7,6 @@
 const uint8_t macAddress[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x01};
 const uint8_t receiverAddress[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x02};
 
-#define Poti 34 // Poti auf den ESP32 Board
 #define LED_GREEN 2
 
 void onEspNowCallback(const uint8_t *mac_addr, const uint8_t *incomingData, int len);
@@ -50,7 +49,6 @@ void setup()
 
 void loop()
 {
-	// tft.DisplayValue(analogRead(Poti)); // TODO: Ändern auf den gesendeten Wert
 }
 
 void onEspNowCallback(const uint8_t *macAddr, const uint8_t *incomingData, int len)

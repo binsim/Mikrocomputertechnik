@@ -77,6 +77,10 @@ void sendPotiValue(int value)
 {
 	u8 data[] = {(value >> 8) & 0xFF, value & 0xFF};
 
+	Serial.print("Send poti value: ");
+	Serial.print(data[0], HEX);
+	Serial.print(data[1], HEX);
+
 	// // Send data to Esp32 device
 	esp_now_send(macAddress, data, 2);
 }

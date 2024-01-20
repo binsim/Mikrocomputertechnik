@@ -22,6 +22,6 @@ private:
     int old_analog = -999; // Value last displayed
 
     void analogMeter();
-    void plotNeedle(int value, byte ms_delay);
+    void plotNeedle(int value);
     float mapFloat(float x, float in_min, float in_max, float out_min, float out_max);
 };

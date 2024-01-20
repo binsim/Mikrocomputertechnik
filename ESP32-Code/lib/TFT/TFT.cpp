@@ -18,7 +18,7 @@ void TFT::DisplayValue(u_int16_t PotiValue)
     if (updateTime <= millis())
     {
         updateTime = millis() + LOOP_PERIOD;
-        this->plotNeedle(value, 0);
+        this->plotNeedle(value);
     }
 }
 
@@ -137,10 +137,10 @@ void TFT::analogMeter() // Funktion to plot the Basic Analog Meter
 
     tft.drawCentreString("Poti Value", M_SIZE * 120, M_SIZE * 70, 4); // Draw Center "Poti Value" in the Middle of the Screen
 
-    plotNeedle(0, 0); // Put meter needle at 0
+    plotNeedle(0); // Put meter needle at 0
 }
 
-void TFT::plotNeedle(int value, byte ms_delay)
+void TFT::plotNeedle(int value)
 {
     tft.setTextColor(TFT_BLACK, TFT_WHITE);
     String RightString = String(this->mapFloat(value, 0, 100, 0, 3.3)) + "V";
@@ -152,49 +152,34 @@ void TFT::plotNeedle(int value, byte ms_delay)
         value = 110;
 
     // Move the needle until new value reached
-    while (!(value == old_analog))
-    {
-        if (old_analog < value)
-            old_analog++;
-        else
-            old_analog--;
 
-        if (ms_delay == 0)
-            old_analog = value; // Update immediately if delay is 0
+    old_analog = value; // Update immediately if delay is 0
 
-        float sdeg = map(old_analog, -10, 110, -150, -30); // Map value to angle
-        // Calculate tip of needle coords
-        float sx = cos(sdeg * 0.0174532925);
-        float sy = sin(sdeg * 0.0174532925);
+    float sdeg = map(old_analog, -10, 110, -150, -30); // Map value to angle
+    // Calculate tip of needle coords
+    float sx = cos(sdeg * 0.0174532925);
+    float sy = sin(sdeg * 0.0174532925);
 
-        // Calculate x delta of needle start (does not start at pivot point)
-        float tx = tan((sdeg + 90) * 0.0174532925);
+    // Calculate x delta of needle start (does not start at pivot point)
+    float tx = tan((sdeg + 90) * 0.0174532925);
 
-        // Erase old needle image
-        tft.drawLine(M_SIZE * (120 + 20 * ltx - 1), M_SIZE * (140 - 20), osx - 1, osy, TFT_WHITE);
-        tft.drawLine(M_SIZE * (120 + 20 * ltx), M_SIZE * (140 - 20), osx, osy, TFT_WHITE);
-        tft.drawLine(M_SIZE * (120 + 20 * ltx + 1), M_SIZE * (140 - 20), osx + 1, osy, TFT_WHITE);
+    // Erase old needle image
+    tft.drawLine(M_SIZE * (120 + 20 * ltx - 1), M_SIZE * (140 - 20), osx - 1, osy, TFT_WHITE);
+    tft.drawLine(M_SIZE * (120 + 20 * ltx), M_SIZE * (140 - 20), osx, osy, TFT_WHITE);
+    tft.drawLine(M_SIZE * (120 + 20 * ltx + 1), M_SIZE * (140 - 20), osx + 1, osy, TFT_WHITE);
 
-        // Re-plot text under needle
-        tft.setTextColor(TFT_BLACK);
-        tft.drawCentreString("Poti Value", M_SIZE * 120, M_SIZE * 70, 4);
+    // Re-plot text under needle
+    tft.setTextColor(TFT_BLACK);
+    tft.drawCentreString("Poti Value", M_SIZE * 120, M_SIZE * 70, 4);
 
-        // Store new needle end coords for next erase
-        ltx = tx;
-        osx = M_SIZE * (sx * 98 + 120);
-        osy = M_SIZE * (sy * 98 + 140);
+    // Store new needle end coords for next erase
+    ltx = tx;
+    osx = M_SIZE * (sx * 98 + 120);
+    osy = M_SIZE * (sy * 98 + 140);
 
-        // Draw the needle in the new postion, magenta makes needle a bit bolder
-        // draws 3 lines to thicken needle
-        tft.drawLine(M_SIZE * (120 + 20 * ltx - 1), M_SIZE * (140 - 20), osx - 1, osy, TFT_RED);
-        tft.drawLine(M_SIZE * (120 + 20 * ltx), M_SIZE * (140 - 20), osx, osy, TFT_MAGENTA);
-        tft.drawLine(M_SIZE * (120 + 20 * ltx + 1), M_SIZE * (140 - 20), osx + 1, osy, TFT_RED);
-
-        // Slow needle down slightly as it approaches new postion
-        if (abs(old_analog - value) < 10)
-            ms_delay += ms_delay / 5;
-
-        // Wait before next update
-        delay(ms_delay);
-    }
+    // Draw the needle in the new postion, magenta makes needle a bit bolder
+    // draws 3 lines to thicken needle
+    tft.drawLine(M_SIZE * (120 + 20 * ltx - 1), M_SIZE * (140 - 20), osx - 1, osy, TFT_RED);
+    tft.drawLine(M_SIZE * (120 + 20 * ltx), M_SIZE * (140 - 20), osx, osy, TFT_MAGENTA);
+    tft.drawLine(M_SIZE * (120 + 20 * ltx + 1), M_SIZE * (140 - 20), osx + 1, osy, TFT_RED);
 }

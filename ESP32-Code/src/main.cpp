@@ -2,9 +2,9 @@
 
 #include "TFT.h"
 
-#define Poti 34
+#define Poti 34 // Poti auf den ESP32 Board
 
-TFT tft;
+TFT tft; // Erstellen eines Objektes der Klasse TFT
 
 void setup()
 {
@@ -13,5 +13,5 @@ void setup()
 
 void loop()
 {
-    tft.DisplayValue(analogRead(Poti));
+    tft.DisplayValue(analogRead(Poti)); // TODO: Ändern auf den gesendeten Wert
 }

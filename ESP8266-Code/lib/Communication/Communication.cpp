@@ -7,7 +7,7 @@ int initCommunication()
 	WiFi.mode(WIFI_STA);
 
 	// set mac address
-	wifi_set_macaddr(STATION_IF, receiverAddress);
+	wifi_set_macaddr(STATION_IF, const_cast<uint8_t *>(macAddress));
 
 	WiFi.disconnect();
 
@@ -15,7 +15,7 @@ int initCommunication()
 	if (err != 0)
 		return err;
 
-	esp_now_add_peer(macAddress, ESP_NOW_ROLE_COMBO, 0, NULL, 0);
+	esp_now_add_peer(const_cast<u8 *>(macAddress), ESP_NOW_ROLE_COMBO, 0, NULL, 0);
 	esp_now_set_self_role(ESP_NOW_ROLE_COMBO);
 
 	// Set callback function for received messages

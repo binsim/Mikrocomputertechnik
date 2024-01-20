@@ -60,7 +60,7 @@ void sendPotiValue(int value)
 	Serial.print(data[1], HEX);
 
 	// // Send data to Esp32 device
-	esp_now_send(macAddress, data, 2);
+	esp_now_send(const_cast<u8 *>(macAddress), data, 2);
 }
 
 void onEspNowCallback(u8 *mac_addr, u8 *incomingData, u8 len)

@@ -177,7 +177,6 @@ void TFT::plotNeedle(int value)
     osx = M_SIZE * (sx * 98 + 120);
     osy = M_SIZE * (sy * 98 + 140);
 
-    // Draw the needle in the new postion, magenta makes needle a bit bolder
     // draws 3 lines to thicken needle
     tft.drawLine(M_SIZE * (120 + 20 * ltx - 1), M_SIZE * (140 - 20), osx - 1, osy, TFT_RED);
     tft.drawLine(M_SIZE * (120 + 20 * ltx), M_SIZE * (140 - 20), osx, osy, TFT_MAGENTA);

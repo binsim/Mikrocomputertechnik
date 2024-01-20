@@ -3,8 +3,8 @@
 void TFT::TFT_Init()
 {
     tft.init();
-    tft.setRotation(1);
-    tft.fillScreen(TFT_BLACK);
+    tft.setRotation(1);        // Rotates the display by 90 degrees
+    tft.fillScreen(TFT_BLACK); // Fill the Backround with Black
     this->analogMeter();
 
     updateTime = millis();
@@ -12,8 +12,9 @@ void TFT::TFT_Init()
 
 void TFT::DisplayValue(u_int16_t PotiValue)
 {
-    value = map(PotiValue, 0, MAX_ANALOG_INPUT, 0, 100);
+    int value = map(PotiValue, 0, MAX_ANALOG_INPUT_VALUE, 0, 100); // Maps the Value of the Potentiometer for the "plotNeedle" function
 
+    // Updates the Needle after every 35 seconds, which is defined by "LOOP_PERIOD"
     if (updateTime <= millis())
     {
         updateTime = millis() + LOOP_PERIOD;
@@ -26,7 +27,7 @@ float TFT::mapFloat(float x, float in_min, float in_max, float out_min, float ou
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
-void TFT::analogMeter()
+void TFT::analogMeter() // Funktion to plot the Basic Analog Meter
 {
 
     // Meter outline
@@ -106,19 +107,19 @@ void TFT::analogMeter()
             y0 = sy * (M_SIZE * 100 + tl + 10) + M_SIZE * 140;
             switch (i / 25)
             {
-            case -2:
+            case -2: // at -50 degrees
                 tft.drawCentreString("0%", x0, y0 - 12, 2);
                 break;
-            case -1:
+            case -1: // at -25 degrees
                 tft.drawCentreString("25%", x0, y0 - 9, 2);
                 break;
-            case 0:
+            case 0: // at 0 degrees
                 tft.drawCentreString("50%", x0, y0 - 7, 2);
                 break;
-            case 1:
+            case 1: // at 25 degrees
                 tft.drawCentreString("75%", x0, y0 - 9, 2);
                 break;
-            case 2:
+            case 2: // at 50 degrees
                 tft.drawCentreString("100%", x0, y0 - 12, 2);
                 break;
             }
@@ -134,8 +135,7 @@ void TFT::analogMeter()
             tft.drawLine(x0, y0, x1, y1, TFT_BLACK);
     }
 
-    tft.drawCentreString("Poti Value", M_SIZE * 120, M_SIZE * 70, 4); // Comment out to avoid font 4
-    tft.drawRect(5, 3, M_SIZE * 230, M_SIZE * 119, TFT_BLACK);        // Draw bezel line
+    tft.drawCentreString("Poti Value", M_SIZE * 120, M_SIZE * 70, 4); // Draw Center "Poti Value" in the Middle of the Screen
 
     plotNeedle(0, 0); // Put meter needle at 0
 }
@@ -177,7 +177,7 @@ void TFT::plotNeedle(int value, byte ms_delay)
 
         // Re-plot text under needle
         tft.setTextColor(TFT_BLACK);
-        tft.drawCentreString("Poti Value", M_SIZE * 120, M_SIZE * 70, 4); // // Comment out to avoid font 4
+        tft.drawCentreString("Poti Value", M_SIZE * 120, M_SIZE * 70, 4);
 
         // Store new needle end coords for next erase
         ltx = tx;

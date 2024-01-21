@@ -6,7 +6,7 @@
 #include "Communication.h"
 
 #define LED_GREEN 2
-#define MAX_PIN_LENGTH 20
+#define MAX_PIN_LENGTH 18
 #define DEBOUNCE_DELAY 50
 
 const String masterPin = "09913615516";
@@ -64,6 +64,7 @@ void matrixLoop()
     {
         // Reset pin
         inputPin = "";
+        tft.updatePin(inputPin);
 
         return;
     }
@@ -90,13 +91,13 @@ void matrixLoop()
             {
                 if (checkChangePin == inputPin)
                 {
-                    flashUtil.setPin(inputPin); //save user pin to flash
+                    flashUtil.setPin(inputPin); // save user pin to flash
+                    tft.printMessage("Pin erfolgreich geaendert", TFT_GREEN);
                 }
                 else
                 {
                     // Pin are not the same
-
-                    // TODO: show user
+                    tft.printMessage("Pin stimmt nicht überein", TFT_RED);
                 }
                 checkChangePin = "";
 
@@ -105,12 +106,14 @@ void matrixLoop()
             }
             else
             {
+                tft.printMessage("Pin erneut eingeben", TFT_BLACK);
                 checkChangePin = inputPin;
             }
         }
 
         // Reset pin
         inputPin = "";
+        tft.updatePin(inputPin);
 
         return;
     }
@@ -119,13 +122,20 @@ void matrixLoop()
         if (pressedKey == 'B')
         {
             inChangePin = true;
+            tft.printMessage("Neuen Code eingeben", TFT_BLACK);
         }
 
         return;
     }
 
+    if (inputPin.length() >= MAX_PIN_LENGTH) // Max Pin Length reached
+        return;
+
     inputPin += pressedKey;
     Serial.println(inputPin);
+    tft.updatePin(inputPin);
+    if (!inChangePin)
+        tft.printMessage("", TFT_WHITE); // Message löschen
 }
 
 void onEspNowCallback(const uint8_t *macAddr, const uint8_t *incomingData, int len)

@@ -31,10 +31,12 @@ void TFT::analogMeter() // Funktion to plot the Basic Analog Meter
 {
 
     // Meter outline
-    tft.fillRect(0, 0, M_SIZE * 239, M_SIZE * 126, TFT_GREY);
-    tft.fillRect(5, 3, M_SIZE * 230, M_SIZE * 119, TFT_WHITE);
+    tft.fillRect(0, 0, M_SIZE * 239, 240, TFT_GREY);
+    tft.fillRect(5, 3, M_SIZE * 230, 230, TFT_WHITE);
+    tft.drawLine(0, 160, 420, 160, TFT_GREY);
 
     tft.setTextColor(TFT_BLACK); // Text colour
+    tft.drawString("Code:", 10, 170, 4);
 
     // Draw ticks every 5 degrees from -50 to +50 degrees (100 deg. FSD swing)
     for (int i = -50; i < 51; i += 5)
@@ -181,4 +183,29 @@ void TFT::plotNeedle(int value)
     tft.drawLine(M_SIZE * (120 + 20 * ltx - 1), M_SIZE * (140 - 20), osx - 1, osy, TFT_RED);
     tft.drawLine(M_SIZE * (120 + 20 * ltx), M_SIZE * (140 - 20), osx, osy, TFT_MAGENTA);
     tft.drawLine(M_SIZE * (120 + 20 * ltx + 1), M_SIZE * (140 - 20), osx + 1, osy, TFT_RED);
+}
+
+void TFT::updatePin(String Input_Pin)
+{
+    tft.fillRect(90, 165, 220, 30, TFT_WHITE); // Erase old code
+    String DisplayString = "";
+    if (Input_Pin.length() == 0) // Return when String is empty
+        return;
+
+    for (int i = 0; i < Input_Pin.length() - 1; i++) // Set "*" for every char in the String exepct the last one
+    {
+        DisplayString += "*";
+    }
+
+    DisplayString += Input_Pin.charAt(Input_Pin.length() - 1); // Add last char of the String
+
+    tft.setTextColor(TFT_BLACK, TFT_WHITE);
+    tft.drawString(DisplayString, 90, 170, 4); // Display String
+}
+
+void TFT::printMessage(String Message, uint16_t color)
+{
+    tft.fillRect(10, 200, 300, 30, TFT_WHITE); // Erase old Message
+    tft.setTextColor(color, TFT_WHITE);
+    tft.drawString(Message, 10, 205, 4);
 }

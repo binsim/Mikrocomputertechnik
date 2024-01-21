@@ -1,22 +1,34 @@
 #include <Arduino.h>
 
+#include "FlashUtil.h"
 #include "TFT.h"
 #include "MatrixKeypad.h"
+#include "Communication.h"
 
-#define Poti 34 // Poti auf den ESP32 Board
+#define LED_GREEN 2
 #define MAX_PIN_LENGTH 18
 #define DEBOUNCE_DELAY 50
 
 const String masterPin = "09913615516";
 String userPin = "1234";
 
+// Region FunctionDeclaration
+void sendRelayOpen(bool open);
 void matrixLoop();
+// EndRegion FunctionDeclaration
 
 TFT tft; // Create an Instance of the class "TFT"
+FlashUtil flashUtil;
 void setup()
 {
     Serial.begin(9600);
 
+    pinMode(LED_GREEN, OUTPUT);
+
+    // Show if esp now is successfully initialized with green led
+    digitalWrite(LED_GREEN, initCommunication() == ESP_OK ? HIGH : LOW);
+
+    // Initialize TFT Display
     tft.TFT_Init();
 
     init_Keypad();
@@ -24,10 +36,9 @@ void setup()
 
 void loop()
 {
-    tft.DisplayValue(analogRead(Poti)); // TODO: Ändern auf den gesendeten Wert
-
     matrixLoop();
 }
+
 void matrixLoop()
 {
     static String inputPin = "";
@@ -81,4 +92,27 @@ void matrixLoop()
     inputPin += pressedKey;
     Serial.println(inputPin);
     tft.updatePin(inputPin);
+}
+
+void onEspNowCallback(const uint8_t *macAddr, const uint8_t *incomingData, int len)
+{
+    // Allow for only 2 byte length data, to not throw any errors
+    if (len == 2)
+    {
+        // Convert data for displaying
+        uint16_t data = (incomingData[0] << 8) + incomingData[1];
+        // Serial.println(data, HEX);
+
+        // set display value to received poti value
+        tft.DisplayValue(data);
+    }
+}
+
+void sendRelayOpen(bool open)
+{
+    // Convert data to be able to be sent
+    const uint8_t data = (uint8_t)open;
+
+    // Send data
+    esp_now_send(receiverAddress, &data, 1);
 }

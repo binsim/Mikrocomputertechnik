@@ -4,7 +4,7 @@
 #include "MatrixKeypad.h"
 
 #define Poti 34 // Poti auf den ESP32 Board
-#define MAX_PIN_LENGTH 20
+#define MAX_PIN_LENGTH 18
 #define DEBOUNCE_DELAY 50
 
 const String masterPin = "09913615516";
@@ -76,7 +76,8 @@ void matrixLoop()
 
         return;
     }
-
+    if (inputPin.length() >= MAX_PIN_LENGTH) // Max Pin Length reached
+        return;
     inputPin += pressedKey;
     Serial.println(inputPin);
     tft.updatePin(inputPin);

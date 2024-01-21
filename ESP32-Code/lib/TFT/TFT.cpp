@@ -33,7 +33,7 @@ void TFT::analogMeter() // Funktion to plot the Basic Analog Meter
     // Meter outline
     tft.fillRect(0, 0, M_SIZE * 239, 240, TFT_GREY);
     tft.fillRect(5, 3, M_SIZE * 230, 230, TFT_WHITE);
-    tft.drawLine(0, M_SIZE * 119, 420, M_SIZE * 119, TFT_GREY);
+    tft.drawLine(0, 160, 420, 160, TFT_GREY);
 
     tft.setTextColor(TFT_BLACK); // Text colour
     tft.drawString("Code:", 10, 190, 4);

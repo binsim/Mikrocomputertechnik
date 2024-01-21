@@ -2,7 +2,7 @@
 
 void FlashUtil::setPin(String pin)
 {
-    preferences.begin("schloss", false); // start preferences with namespace "schloss" and read/write pernission
+    preferences.begin("lock", false); // start preferences with namespace "schloss" and read/write pernission
 
     if(pin != preferences.getString("pin", false)) //check if pin is different to avoid unnecessary writes
     {
@@ -16,7 +16,7 @@ String FlashUtil::getPin()
 {	
     String pinTemp;
 
-    preferences.begin("schloss", true); // start preferences with namespace "schloss" and read pernission
+    preferences.begin("lock", true); // start preferences with namespace "schloss" and read pernission
     pinTemp = preferences.getString("pin", false); //read pin
     preferences.end(); // close preferences
     return pinTemp;

@@ -1,26 +1,14 @@
 #include "FlashUtil.h"
 
-void FlashUtil::setConfigured(bool configured)
-{
-    preferences.begin("schloss", false); // start preferences with namespace "schloss" and read/write pernission
-    preferences.putBool("configured", configured); //save configured
-	preferences.end(); // close preferences
-}
-
-bool FlashUtil::getConfigured()
-{
-    bool configTemp;
-
-    preferences.begin("schloss", true); // start preferences with namespace "schloss" and read pernission
-    configTemp = preferences.getBool("configured", false); //read configured
-    preferences.end(); // close preferences
-    return configTemp;
-}
-
 void FlashUtil::setPin(String pin)
 {
     preferences.begin("schloss", false); // start preferences with namespace "schloss" and read/write pernission
-    preferences.putString("pin", pin); //save pin
+
+    if(pin != preferences.getString("pin", false)) //check if pin is different to avoid unnecessary writes
+    {
+        preferences.putString("pin", pin); //save pin
+    }
+
     preferences.end(); // close preferences
 }
 

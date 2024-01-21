@@ -72,13 +72,11 @@ void matrixLoop()
         {
             if (inputPin == masterPin || inputPin == userPin)
             {
-                // TODO: Open Relay
                 Serial.println("Open Relay");
                 sendRelayOpen(true);
             }
             else if (inputPin == "")
             {
-                // TODO: Close Relay
                 Serial.println("Close Relay");
                 sendRelayOpen(false);
             }

@@ -10,7 +10,6 @@
 #define DEBOUNCE_DELAY 50
 
 const String masterPin = "09913615516";
-String userPin = "1234";
 
 // Region FunctionDeclaration
 void sendRelayOpen(bool open);
@@ -72,7 +71,7 @@ void matrixLoop()
     {
         if (!inChangePin)
         {
-            if (inputPin == masterPin || inputPin == userPin)
+            if (inputPin == masterPin || inputPin == flashUtil.getPin()
             {
                 Serial.println("Open Relay");
                 sendRelayOpen(true);
@@ -86,12 +85,12 @@ void matrixLoop()
         else
         {
             static String checkChangePin = "";
+
             if (checkChangePin != "")
             {
                 if (checkChangePin == inputPin)
                 {
-                    // Change user pin
-                    userPin = inputPin;
+                    flashUtil.setPin(inputPin); //save user pin to flash
                 }
                 else
                 {

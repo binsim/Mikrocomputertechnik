@@ -42,6 +42,7 @@ void matrixLoop()
     static String inputPin = "";
     static char prevPressedKey = 0;
     static unsigned long lastDebounceTime = 0;
+    static bool inChangePin = false;
     char pressedKey = getPressedKey();
 
     if (prevPressedKey == pressedKey)
@@ -67,19 +68,59 @@ void matrixLoop()
     }
     else if (pressedKey == '#')
     {
-        if (inputPin == masterPin || inputPin == userPin)
+        if (!inChangePin)
         {
-            // TODO: Open Relay
-            Serial.println("Open Relay");
+            if (inputPin == masterPin || inputPin == userPin)
+            {
+                // TODO: Open Relay
+                Serial.println("Open Relay");
+                sendRelayOpen(true);
+            }
+            else if (inputPin == "")
+            {
+                // TODO: Close Relay
+                Serial.println("Close Relay");
+                sendRelayOpen(false);
+            }
         }
-        else if (inputPin == "")
+        else
         {
-            // TODO: Close Relay
-            Serial.println("Close Relay");
+            static String checkChangePin = "";
+            if (checkChangePin != "")
+            {
+                if (checkChangePin == inputPin)
+                {
+                    // Change user pin
+                    userPin = inputPin;
+                }
+                else
+                {
+                    // Pin are not the same
+
+                    // TODO: show user
+                }
+                checkChangePin = "";
+
+                // Exit pin change state
+                inChangePin = false;
+            }
+            else
+            {
+                checkChangePin = inputPin;
+            }
         }
 
         // Reset pin
         inputPin = "";
+
+        return;
+    }
+    else if (pressedKey == 'A' || pressedKey == 'B' || pressedKey == 'C' || pressedKey == 'D')
+    {
+        if (pressedKey == 'B')
+        {
+            inChangePin = true;
+        }
 
         return;
     }

@@ -17,7 +17,6 @@ void matrixLoop();
 // EndRegion FunctionDeclaration
 
 TFT tft; // Create an Instance of the class "TFT"
-FlashUtil flashUtil;
 void setup()
 {
     Serial.begin(9600);
@@ -72,7 +71,7 @@ void matrixLoop()
     {
         if (!inChangePin)
         {
-            if (inputPin == masterPin || inputPin == flashUtil.getPin())
+            if (inputPin == masterPin || inputPin == getPin())
             {
                 Serial.println("Open Relay");
                 sendRelayOpen(true);
@@ -91,7 +90,7 @@ void matrixLoop()
             {
                 if (checkChangePin == inputPin)
                 {
-                    flashUtil.setPin(inputPin); // save user pin to flash
+                    setPin(inputPin); // save user pin to flash
                     tft.printMessage("Pin erfolgreich geaendert", TFT_GREEN);
                 }
                 else

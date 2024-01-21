@@ -11,10 +11,6 @@ void setup()
 
     Serial.println("###################################  STARTUP ################################");
 
-    if(!flashUtil.getConfigured())
-    {
-        Serial.println("No pin has been configured yet. Please configure a pin first.");
-    }
     
     //TODO: add code here
 

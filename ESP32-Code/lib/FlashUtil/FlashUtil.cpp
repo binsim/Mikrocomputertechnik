@@ -1,6 +1,6 @@
 #include "FlashUtil.h"
 
-void FlashUtil::setPin(String pin)
+void setPin(String pin)
 {
     preferences.begin("lock", false); // start preferences with namespace "schloss" and read/write pernission
 
@@ -12,7 +12,7 @@ void FlashUtil::setPin(String pin)
     preferences.end(); // close preferences
 }
 
-String FlashUtil::getPin()
+String getPin()
 {
     String pinTemp;
 

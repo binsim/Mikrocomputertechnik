@@ -71,7 +71,7 @@ void matrixLoop()
     {
         if (!inChangePin)
         {
-            if (inputPin == masterPin || inputPin == flashUtil.getPin()
+            if (inputPin == masterPin || inputPin == flashUtil.getPin())
             {
                 Serial.println("Open Relay");
                 sendRelayOpen(true);

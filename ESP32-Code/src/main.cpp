@@ -92,12 +92,12 @@ void matrixLoop()
                 if (checkChangePin == inputPin)
                 {
                     flashUtil.setPin(inputPin); // save user pin to flash
+                    tft.printMessage("Pin erfolgreich geaendert", TFT_GREEN);
                 }
                 else
                 {
                     // Pin are not the same
-
-                    // TODO: show user
+                    tft.printMessage("Pin stimmt nicht überein", TFT_RED);
                 }
                 checkChangePin = "";
 
@@ -106,6 +106,7 @@ void matrixLoop()
             }
             else
             {
+                tft.printMessage("Pin erneut eingeben", TFT_BLACK);
                 checkChangePin = inputPin;
             }
         }
@@ -121,6 +122,7 @@ void matrixLoop()
         if (pressedKey == 'B')
         {
             inChangePin = true;
+            tft.printMessage("Neuen Code eingeben", TFT_BLACK);
         }
 
         return;
@@ -132,6 +134,8 @@ void matrixLoop()
     inputPin += pressedKey;
     Serial.println(inputPin);
     tft.updatePin(inputPin);
+    if (!inChangePin)
+        tft.printMessage("", TFT_WHITE); // Message löschen
 }
 
 void onEspNowCallback(const uint8_t *macAddr, const uint8_t *incomingData, int len)

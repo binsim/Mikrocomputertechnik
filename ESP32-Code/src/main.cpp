@@ -5,6 +5,7 @@
 
 #define Poti 34 // Poti auf den ESP32 Board
 #define MAX_PIN_LENGTH 20
+#define DEBOUNCE_DELAY 50
 
 const String masterPin = "09913615516";
 String userPin = "1234";
@@ -31,18 +32,20 @@ void matrixLoop()
 {
     static String inputPin = "";
     static char prevPressedKey = 0;
+    static unsigned long lastDebounceTime = 0;
     char pressedKey = getPressedKey();
 
     if (prevPressedKey == pressedKey)
         return;
     prevPressedKey = pressedKey;
 
+    if ((millis() - lastDebounceTime) <= DEBOUNCE_DELAY)
+        return;
+    lastDebounceTime = millis();
+
     // Not a valid key for pin
     if (pressedKey == 0)
         return;
-
-    // Add delay for debouncing
-    delay(20);
 
     // TODO: Add indicator for successfully register a new key
 

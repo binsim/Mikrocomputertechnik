@@ -73,13 +73,17 @@ void matrixLoop()
         {
             if (inputPin == masterPin || inputPin == getPin())
             {
-                Serial.println("Open Relay");
                 sendRelayOpen(true);
+                tft.printMessage("Relay geoeffnet", TFT_GREEN);
             }
             else if (inputPin == "")
             {
-                Serial.println("Close Relay");
                 sendRelayOpen(false);
+                tft.printMessage("Relay geschlossen", TFT_WHITE);
+            }
+            else
+            {
+                tft.printMessage("Falscher Pin", TFT_RED);
             }
         }
         else

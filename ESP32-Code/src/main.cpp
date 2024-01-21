@@ -5,6 +5,10 @@
 
 #define LED_GREEN 2
 
+// Region FunctionDeclaration
+void sendRelayOpen(bool open);
+// EndRegion FunctionDeclaration
+
 TFT tft; // Create an Instance of the class "TFT"
 void setup()
 {
@@ -33,4 +37,11 @@ void onEspNowCallback(const uint8_t *macAddr, const uint8_t *incomingData, int l
 		// set display value to received poti value
 		tft.DisplayValue(data);
 	}
+}
+
+void sendRelayOpen(bool open)
+{
+	const uint8_t data = (uint8_t)open;
+	if (esp_now_send(receiverAddress, &data, 1) == ESP_OK)
+		Serial.println("Send relay open command");
 }

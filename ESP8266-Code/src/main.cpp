@@ -3,7 +3,7 @@
 #include "Communication.h"
 
 #define POTI_PIN A0
-#define RELAY_PIN 0
+#define RELAY_PIN 16
 
 // Region FunctionDeclaration
 void setRelay(bool on);
@@ -25,6 +25,8 @@ void setup()
 
 void loop()
 {
+	// delay is necessary for receiving data
+	delay(100);
 	// ############################################ READING POTI ######################################################
 	{
 		// TODO: Smooth out values
@@ -55,9 +57,9 @@ void sendPotiValue(int value)
 {
 	u8 data[] = {(value >> 8) & 0xFF, value & 0xFF};
 
-	Serial.print("Send poti value: ");
-	Serial.print(data[0], HEX);
-	Serial.print(data[1], HEX);
+	// Serial.print("Send poti value: ");
+	// Serial.print(data[0], HEX);
+	// Serial.println(data[1], HEX);
 
 	// // Send data to Esp32 device
 	esp_now_send(const_cast<u8 *>(macAddress), data, 2);
@@ -65,5 +67,13 @@ void sendPotiValue(int value)
 
 void onEspNowCallback(u8 *mac_addr, u8 *incomingData, u8 len)
 {
+	Serial.print("Received data: ");
 	// TODO: Handle
+	if (len == 1)
+	{
+		Serial.print("Received data: ");
+		Serial.println(incomingData[0]);
+
+		setRelay(incomingData[0]);
+	}
 }

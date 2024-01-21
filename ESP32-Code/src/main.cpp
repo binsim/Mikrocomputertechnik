@@ -24,6 +24,8 @@ void setup()
 void loop()
 {
     tft.DisplayValue(analogRead(Poti)); // TODO: Ändern auf den gesendeten Wert
+
+    matrixLoop();
 }
 void matrixLoop()
 {

@@ -79,7 +79,7 @@ void matrixLoop()
             else if (inputPin == "")
             {
                 sendRelayOpen(false);
-                tft.printMessage("Relay geschlossen", TFT_WHITE);
+                tft.printMessage("Relay geschlossen", TFT_BLACK);
             }
             else
             {

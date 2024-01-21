@@ -33,4 +33,6 @@ esp_err_t initCommunication()
 
 	// Set callback method for esp now
 	esp_now_register_recv_cb(onEspNowCallback);
+
+	return err;
 }

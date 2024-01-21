@@ -1,3 +1,6 @@
+#ifndef TFT_H
+#define TFT_H
+
 #include <TFT_eSPI.h> // Hardware-specific library
 #include <SPI.h>
 
@@ -25,3 +28,5 @@ private:
     void plotNeedle(int value);
     float mapFloat(float x, float in_min, float in_max, float out_min, float out_max);
 };
+
+#endif // TFT_H

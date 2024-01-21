@@ -17,6 +17,7 @@ void matrixLoop();
 // EndRegion FunctionDeclaration
 
 TFT tft; // Create an Instance of the class "TFT"
+uint16_t potiValue = 0;
 void setup()
 {
     Serial.begin(9600);
@@ -34,6 +35,13 @@ void setup()
 
 void loop()
 {
+    static uint16_t currentValue = 0;
+    if (currentValue != potiValue)
+    {
+        currentValue = potiValue;
+        tft.DisplayValue(potiValue);
+    }
+
     matrixLoop();
 }
 
@@ -151,7 +159,7 @@ void onEspNowCallback(const uint8_t *macAddr, const uint8_t *incomingData, int l
         // Serial.println(data, HEX);
 
         // set display value to received poti value
-        tft.DisplayValue(data);
+        potiValue = data;
     }
 }
 

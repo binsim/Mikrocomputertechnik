@@ -29,5 +29,6 @@ enum Keys
 
 void init_Keypad();
 Keys getPressedKey();
+int8_t KeysToNumberValue(Keys key);
 
 #endif // MATRIX_KEYPAD_H

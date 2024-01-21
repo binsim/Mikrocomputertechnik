@@ -1,11 +1,9 @@
+#ifndef FLASHUTIL_H
+#define FLASHUTIL_H
+
 #include <Preferences.h>
 
-class FlashUtil
-{
-public:
-    void setPin(String pin);
-    String getPin();
+void setPin(String pin);
+String getPin();
 
-private:
-    Preferences preferences;
-};
+#endif // FLASHUTIL_H

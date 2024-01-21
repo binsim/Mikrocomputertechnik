@@ -202,3 +202,10 @@ void TFT::updatePin(String Input_Pin)
     tft.setTextColor(TFT_BLACK, TFT_WHITE);
     tft.drawString(DisplayString, 90, 170, 4); // Display String
 }
+
+void TFT::printMessage(String Message, uint16_t color)
+{
+    tft.fillRect(10, 200, 300, 30, TFT_WHITE); // Erase old Message
+    tft.setTextColor(color, TFT_WHITE);
+    tft.drawString(Message, 10, 205, 4);
+}

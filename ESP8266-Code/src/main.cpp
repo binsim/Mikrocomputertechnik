@@ -37,24 +37,23 @@ void loop()
 		int potiValue = analogRead(POTI_PIN);
 		if (potiValue != prevPotiValue)
 		{
-			Serial.print("Poti value changed: ");
-			Serial.println(potiValue);
+			prevPotiValue = potiValue;
 
 			// Send value to ESP32
 			sendPotiValue(potiValue);
-
-			prevPotiValue = potiValue;
 		}
 	}
 }
 
 void setRelay(bool on)
 {
+	// Set GPIO output
 	digitalWrite(RELAY_PIN, on ? HIGH : LOW);
 }
 
 void sendPotiValue(int value)
 {
+	// Split value to two bytes
 	u8 data[] = {(value >> 8) & 0xFF, value & 0xFF};
 
 	// Serial.print("Send poti value: ");
@@ -67,13 +66,10 @@ void sendPotiValue(int value)
 
 void onEspNowCallback(u8 *mac_addr, u8 *incomingData, u8 len)
 {
-	Serial.print("Received data: ");
-	// TODO: Handle
+	// Allow for only 1 byte length data
 	if (len == 1)
 	{
-		Serial.print("Received data: ");
-		Serial.println(incomingData[0]);
-
+		// Set relay on state
 		setRelay(incomingData[0]);
 	}
 }

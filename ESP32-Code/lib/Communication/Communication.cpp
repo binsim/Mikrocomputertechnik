@@ -1,5 +1,6 @@
 #include "Communication.h"
 
+// Peer to be added
 esp_now_peer_info_t receiverPeerInfo;
 
 esp_err_t initCommunication()
@@ -13,11 +14,15 @@ esp_err_t initCommunication()
 	if (err != ESP_OK)
 		return err;
 
+	// Somehow with the disconnect it works
+	// WiFi is sill enabled
 	WiFi.disconnect();
 
+	// Initialize esp now
 	err = esp_now_init();
 	if (err != ESP_OK)
 		return err;
+
 	// Set peer configuration
 	memcpy(receiverPeerInfo.peer_addr, receiverAddress, 6); // copy mac address to peer info
 	receiverPeerInfo.channel = 0;							// set WLAN channel to 0

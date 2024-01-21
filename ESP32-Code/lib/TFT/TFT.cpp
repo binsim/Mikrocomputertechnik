@@ -31,10 +31,12 @@ void TFT::analogMeter() // Funktion to plot the Basic Analog Meter
 {
 
     // Meter outline
-    tft.fillRect(0, 0, M_SIZE * 239, M_SIZE * 126, TFT_GREY);
-    tft.fillRect(5, 3, M_SIZE * 230, M_SIZE * 119, TFT_WHITE);
+    tft.fillRect(0, 0, M_SIZE * 239, 240, TFT_GREY);
+    tft.fillRect(5, 3, M_SIZE * 230, 230, TFT_WHITE);
+    tft.drawLine(0, M_SIZE * 119, 420, M_SIZE * 119, TFT_GREY);
 
     tft.setTextColor(TFT_BLACK); // Text colour
+    tft.drawString("Code:", 10, 190, 4);
 
     // Draw ticks every 5 degrees from -50 to +50 degrees (100 deg. FSD swing)
     for (int i = -50; i < 51; i += 5)
@@ -181,4 +183,22 @@ void TFT::plotNeedle(int value)
     tft.drawLine(M_SIZE * (120 + 20 * ltx - 1), M_SIZE * (140 - 20), osx - 1, osy, TFT_RED);
     tft.drawLine(M_SIZE * (120 + 20 * ltx), M_SIZE * (140 - 20), osx, osy, TFT_MAGENTA);
     tft.drawLine(M_SIZE * (120 + 20 * ltx + 1), M_SIZE * (140 - 20), osx + 1, osy, TFT_RED);
+}
+
+void TFT::updatePin(String Input_Pin)
+{
+    tft.fillRect(90, 160, 220, 70, TFT_WHITE);
+    String DisplayString = "";
+    if (Input_Pin.length() == 0)
+        return;
+
+    for (int i = 0; i < Input_Pin.length() - 1; i++)
+    {
+        DisplayString += "*";
+    }
+
+    DisplayString += Input_Pin.charAt(Input_Pin.length() - 1);
+
+    tft.setTextColor(TFT_BLACK, TFT_WHITE);
+    tft.drawString(DisplayString, 90, 190, 4);
 }

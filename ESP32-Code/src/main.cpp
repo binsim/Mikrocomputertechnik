@@ -53,6 +53,7 @@ void matrixLoop()
     {
         // Reset pin
         inputPin = "";
+        tft.updatePin(inputPin);
 
         return;
     }
@@ -71,10 +72,12 @@ void matrixLoop()
 
         // Reset pin
         inputPin = "";
+        tft.updatePin(inputPin);
 
         return;
     }
 
     inputPin += pressedKey;
     Serial.println(inputPin);
+    tft.updatePin(inputPin);
 }

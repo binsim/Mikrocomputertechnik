@@ -15,6 +15,7 @@ class TFT
 public:
     void TFT_Init();
     void DisplayValue(u_int16_t value);
+    void updatePin(String Input_Pin);
 
 private:
     TFT_eSPI tft = TFT_eSPI();

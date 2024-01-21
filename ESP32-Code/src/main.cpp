@@ -108,7 +108,7 @@ void matrixLoop()
                 else
                 {
                     // Pin are not the same
-                    tft.printMessage("Pin stimmt nicht überein", TFT_RED);
+                    tft.printMessage("Pin stimmt nicht ueberein", TFT_RED);
                 }
                 checkChangePin = "";
 

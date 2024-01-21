@@ -1,11 +1,11 @@
 #include <Preferences.h>
 
-class FLashUtil
+class FlashUtil
 {
-    public:
+public:
     void setPin(String pin);
     String getPin();
 
-    private:
+private:
     Preferences preferences;
-}
+};

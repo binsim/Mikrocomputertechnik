@@ -7,7 +7,7 @@ int initCommunication()
 	WiFi.mode(WIFI_STA);
 
 	// set mac address
-	wifi_set_macaddr(STATION_IF, const_cast<uint8_t *>(macAddress));
+	wifi_set_macaddr(STATION_IF, const_cast<uint8_t *>(receiverAddress));
 
 	WiFi.disconnect();
 
@@ -19,7 +19,9 @@ int initCommunication()
 	esp_now_set_self_role(ESP_NOW_ROLE_COMBO);
 
 	// Set callback function for received messages
-	esp_now_register_recv_cb(onEspNowCallback);
+	err = esp_now_register_recv_cb(onEspNowCallback);
+	if (err != 0)
+		return err;
 
 	return err;
 }

@@ -1,5 +1,7 @@
 #include "FlashUtil.h"
 
+Preferences preferences;
+
 void setPin(String pin)
 {
     preferences.begin("lock", false); // start preferences with namespace "schloss" and read/write pernission

@@ -3,9 +3,7 @@
 
 #include <Preferences.h>
 
-Preferences preferences;
-
 void setPin(String pin);
 String getPin();
 
-#endif
+#endif // FLASHUTIL_H

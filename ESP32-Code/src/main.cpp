@@ -1,12 +1,19 @@
 #include <Arduino.h>
 
 #include "TFT.h"
+#include "MatrixKeypad.h"
 #include "Communication.h"
 
 #define LED_GREEN 2
+#define MAX_PIN_LENGTH 20
+#define DEBOUNCE_DELAY 50
+
+const String masterPin = "09913615516";
+String userPin = "1234";
 
 // Region FunctionDeclaration
 void sendRelayOpen(bool open);
+void matrixLoop();
 // EndRegion FunctionDeclaration
 
 TFT tft; // Create an Instance of the class "TFT"
@@ -21,10 +28,64 @@ void setup()
 
     // Initialize TFT Display
     tft.TFT_Init();
+
+    init_Keypad();
 }
 
 void loop()
 {
+    matrixLoop();
+}
+
+void matrixLoop()
+{
+    static String inputPin = "";
+    static char prevPressedKey = 0;
+    static unsigned long lastDebounceTime = 0;
+    char pressedKey = getPressedKey();
+
+    if (prevPressedKey == pressedKey)
+        return;
+    prevPressedKey = pressedKey;
+
+    if ((millis() - lastDebounceTime) <= DEBOUNCE_DELAY)
+        return;
+    lastDebounceTime = millis();
+
+    // Not a valid key for pin
+    if (pressedKey == 0)
+        return;
+
+    // TODO: Add indicator for successfully register a new key
+
+    if (pressedKey == '*')
+    {
+        // Reset pin
+        inputPin = "";
+
+        return;
+    }
+    else if (pressedKey == '#')
+    {
+        if (inputPin == masterPin || inputPin == userPin)
+        {
+            // TODO: Open Relay
+            Serial.println("Open Relay");
+        }
+        else if (inputPin == "")
+        {
+            // TODO: Close Relay
+            Serial.println("Close Relay");
+        }
+
+        // Reset pin
+        inputPin = "";
+
+        return;
+    }
+
+    inputPin += pressedKey;
+    Serial.println(inputPin);
 }
 
 void onEspNowCallback(const uint8_t *macAddr, const uint8_t *incomingData, int len)

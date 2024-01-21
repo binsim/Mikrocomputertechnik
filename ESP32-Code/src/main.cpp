@@ -1,5 +1,6 @@
 #include <Arduino.h>
 
+#include "FlashUtil.h"
 #include "TFT.h"
 #include "MatrixKeypad.h"
 #include "Communication.h"
@@ -17,6 +18,7 @@ void matrixLoop();
 // EndRegion FunctionDeclaration
 
 TFT tft; // Create an Instance of the class "TFT"
+FlashUtil flashUtil;
 void setup()
 {
     Serial.begin(9600);

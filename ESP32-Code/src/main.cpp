@@ -79,15 +79,15 @@ void matrixLoop()
     {
         if (!inChangePin)
         {
-            if (inputPin == masterPin || inputPin == getPin())
-            {
-                sendRelayOpen(true);
-                tft.printMessage("Relay geoeffnet", TFT_GREEN);
-            }
-            else if (inputPin == "")
+            if (inputPin == "")
             {
                 sendRelayOpen(false);
                 tft.printMessage("Relay geschlossen", TFT_BLACK);
+            }
+            else if (inputPin == masterPin || inputPin == getPin())
+            {
+                sendRelayOpen(true);
+                tft.printMessage("Relay geoeffnet", TFT_GREEN);
             }
             else
             {

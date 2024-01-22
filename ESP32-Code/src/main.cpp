@@ -11,6 +11,8 @@
 
 const String masterPin = "09913615516";
 
+static bool isTresorOpen = false;
+
 // Region FunctionDeclaration
 void sendRelayOpen(bool open);
 void matrixLoop();
@@ -82,11 +84,13 @@ void matrixLoop()
             if (inputPin == "")
             {
                 sendRelayOpen(false);
+                isTresorOpen = false;
                 tft.printMessage("Relay geschlossen", TFT_BLACK);
             }
             else if (inputPin == masterPin || inputPin == getPin())
             {
                 sendRelayOpen(true);
+                isTresorOpen = true;
                 tft.printMessage("Relay geoeffnet", TFT_GREEN);
             }
             else
@@ -132,8 +136,15 @@ void matrixLoop()
     {
         if (pressedKey == 'B')
         {
-            inChangePin = true;
-            tft.printMessage("Neuen Code eingeben", TFT_BLACK);
+            if (isTresorOpen) // Allow Pin change only when Safe is open
+            {
+                inChangePin = true;
+                tft.printMessage("Neuen Code eingeben", TFT_BLACK);
+            }
+            else
+            {
+                tft.printMessage("Nur bei offenen Tresor", TFT_RED);
+            }
         }
 
         return;

@@ -11,7 +11,7 @@
 
 const String masterPin = "09913615516";
 
-static bool isTresorOpen = false;
+bool isTresorOpen = false;
 
 // Region FunctionDeclaration
 void sendRelayOpen(bool open);
@@ -66,8 +66,6 @@ void matrixLoop()
     // Not a valid key for pin
     if (pressedKey == 0)
         return;
-
-    // TODO: Add indicator for successfully register a new key
 
     if (pressedKey == '*')
     {
